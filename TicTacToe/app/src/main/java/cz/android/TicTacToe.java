@@ -36,12 +36,9 @@ public class TicTacToe extends Activity implements OnTouchListener {
 
         float w = drawView.getWidth() / 3;
         float b = drawView.getHeight() / 2;
-        float btnClearX = w*2 + w/2;
-        float btnClearY = b - b/2 - b/3;
-        float btnClearR = w/3;
-        float btnExitX = w + w-w/2 + w/4;
-        float btnExitY = b - b/2 - b/3;
-        float btnExitR = w/3;
+
+        System.out.println(drawView.getWidth());
+        System.out.println(drawView.getHeight());
 
         // вычисляем ячейку щелчка
         int xT = (int) (clickX / w);
@@ -58,7 +55,7 @@ public class TicTacToe extends Activity implements OnTouchListener {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
             // если щелкнули внутри кнопки обнуления
-            if (isInCircle(btnClearX, btnClearY, btnClearR, clickX, clickY)) {
+            if (isInCircle(drawView.getBtnClearX(), drawView.getBtnClearY(), drawView.getBtnR(), clickX, clickY)) {
                 for (int y = 0; y < 3; y++) {
                     for (int x = 0; x < 3; x++) {
                         table[x][y] = 0;
@@ -67,8 +64,9 @@ public class TicTacToe extends Activity implements OnTouchListener {
                 drawView.invalidate();
                 return true;
             }
-            if (isInCircle(btnExitX,btnExitY,btnExitR,clickX,clickY)) {
-                System.out.println("i");
+            // если щелкнули внутри кнопки завершения
+            if (isInCircle(drawView.getBtnExitX(), drawView.getBtnExitY(), drawView.getBtnR(), clickX, clickY)) {
+                System.exit(0);
             }
 
             // если ячейка пустая и не победа ни моя, ни AI
