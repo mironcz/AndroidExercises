@@ -12,29 +12,19 @@ class DrawView extends View {
     // кнопки обнуления и выхода из игры
     private float btnClearX, btnClearY, btnExitX, btnExitY, btnR;
 
+    private Button btnClear, btnExit;
+
     public DrawView(TicTacToe mainActivity, char[][] table) {
         super(mainActivity);
         this.table = table;
     }
 
-    public float getBtnExitX() {
-        return btnExitX;
+    public Button getBtnClear() {
+        return btnClear;
     }
 
-    public float getBtnExitY() {
-        return btnExitY;
-    }
-
-    public float getBtnClearX() {
-        return btnClearX;
-    }
-
-    public float getBtnClearY() {
-        return btnClearY;
-    }
-
-    public float getBtnR() {
-        return btnR;
+    public Button getBtnExit() {
+        return btnExit;
     }
 
     private void drawExit(Canvas canvas) {
@@ -53,8 +43,12 @@ class DrawView extends View {
         btnExitY = b - b/2 - b/3;
         btnR = w/3;
 
+        btnExit = new Button(btnExitX, btnExitY, btnR);
+
         btnClearX = btnExitX - btnR * 2.5f;
         btnClearY = b - b/2 - b/3;
+
+        btnClear = new Button(btnClearX, btnClearY, btnR);
 
         float lineWidth = 12 * getWidth() / 480;
         float singWidth = 25 * getWidth() / 480;

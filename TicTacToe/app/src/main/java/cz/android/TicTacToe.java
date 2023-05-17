@@ -55,17 +55,13 @@ public class TicTacToe extends Activity implements OnTouchListener {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
             // если щелкнули внутри кнопки обнуления
-            if (isInCircle(drawView.getBtnClearX(), drawView.getBtnClearY(), drawView.getBtnR(), clickX, clickY)) {
-                for (int y = 0; y < 3; y++) {
-                    for (int x = 0; x < 3; x++) {
-                        table[x][y] = 0;
-                    }
-                }
+            if (drawView.getBtnClear().isClick(clickX, clickY)) {
+                initTable();
                 drawView.invalidate();
                 return true;
             }
             // если щелкнули внутри кнопки завершения
-            if (isInCircle(drawView.getBtnExitX(), drawView.getBtnExitY(), drawView.getBtnR(), clickX, clickY)) {
+            if (drawView.getBtnExit().isClick(clickX, clickY)) {
                 System.exit(0);
             }
 
@@ -79,12 +75,7 @@ public class TicTacToe extends Activity implements OnTouchListener {
                 }
 
                 if (!isWin(CHAR_O) && !isTableFull()) {
-                    int xAI, yAI;
-                    do {
-                        xAI = random.nextInt(3);
-                        yAI = random.nextInt(3);
-                    } while (table[yAI][xAI] != 0);
-                    table[yAI][xAI] = CHAR_X;
+                    turnAI();
                     if (isWin(CHAR_X)) {
                         showAlert(R.string.ai_won);
                     }
@@ -95,9 +86,33 @@ public class TicTacToe extends Activity implements OnTouchListener {
         return true;
     }
 
-    private boolean isInCircle(float x1, float y1, float r, float x2, float y2) {
-        double d = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-        return r >= d;
+    private void turnAI() {
+        int xAI, yAI;
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                if (table[x][y] == 0) {
+                    table[x][y] = CHAR_O;
+                    if (isWin(CHAR_O)) {
+                        table[x][y] = CHAR_X;
+                        return;
+                    }
+                    table[x][y] = 0;
+                }
+            }
+        }
+        do {
+            xAI = random.nextInt(3);
+            yAI = random.nextInt(3);
+        } while (table[yAI][xAI] != 0);
+        table[yAI][xAI] = CHAR_X;
+    }
+
+    private void initTable() {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                table[x][y] = 0;
+            }
+        }
     }
 
     private boolean isWin(char ch) {
